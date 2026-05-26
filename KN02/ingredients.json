@@ -1,0 +1,10 @@
+[
+  { "_id": "i1", "name": "Spaghetti", "unit": "g", "amount": 200 },
+  { "_id": "i2", "name": "Speck", "unit": "g", "amount": 100 },
+  { "_id": "i3", "name": "Ei", "unit": "Stück", "amount": 2 },
+  { "_id": "i4", "name": "Avocado", "unit": "Stück", "amount": 1 },
+  { "_id": "i5", "name": "Toastbrot", "unit": "Scheiben", "amount": 2 },
+  { "_id": "i6", "name": "Römersalat", "unit": "g", "amount": 150 },
+  { "_id": "i7", "name": "Parmesan", "unit": "g", "amount": 50 },
+  { "_id": "i8", "name": "Caesar Dressing", "unit": "ml", "amount": 60 }
+]

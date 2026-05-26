@@ -1,0 +1,5 @@
+[
+  { "_id": "r1", "title": "Spaghetti Carbonara", "author": "Mario", "category_id": "c1", "ingredient_ids": ["i1", "i2", "i3"] },
+  { "_id": "r2", "title": "Avocado Toast", "author": "Sara", "category_id": "c2", "ingredient_ids": ["i4", "i5"] },
+  { "_id": "r3", "title": "Caesar Salad", "author": "John", "category_id": "c2", "ingredient_ids": ["i6", "i7", "i8"] }
+]
