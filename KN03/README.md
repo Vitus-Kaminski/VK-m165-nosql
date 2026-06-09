@@ -226,8 +226,7 @@ Wenn sich ein Produktpreis oder der Lagerbestand in der SQL-Datenbank ändert, l
 ### TTL Live-Beobachtung
 
 > **Abgabe:** Screenshot mit `TTL product:PROD-9901` (Restzeit sichtbar).  
-> <img width="1891" height="257" alt="image" src="https://github.com/user-attachments/assets/909876d1-efab-4e02-87e4-fa424bf1e9c9" />
-
+> <img width="1792" height="457" alt="image" src="https://github.com/user-attachments/assets/9b6833e0-9152-4fb3-8c1a-0589602c2bc7" />
 
 
 ```bash
@@ -244,7 +243,8 @@ Wenn sich ein Produktpreis oder der Lagerbestand in der SQL-Datenbank ändert, l
 ### Key nach TTL-Ablauf
 
 > **Abgabe:** Screenshot mit `GET product:PROD-9901` nach Ablauf → `(nil)`.  
-> <img width="1891" height="257" alt="image" src="https://github.com/user-attachments/assets/8d65d120-918a-4197-bc69-aa855b51768b" />
+><img width="1792" height="457" alt="image" src="https://github.com/user-attachments/assets/b251f8f4-93ad-4c8d-838d-a944d0e5ff00" />
+
 
 ```bash
 127.0.0.1:6379> GET product:PROD-9901
