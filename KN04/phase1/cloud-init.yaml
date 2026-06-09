@@ -1,0 +1,60 @@
+#cloud-config
+package_update: true
+packages:
+  - prometheus
+  - python3-venv
+  - python3-pip
+  - wget
+  - apt-transport-https
+  - software-properties-common
+
+write_files:
+  - path: /home/ubuntu/monitoring/script.py
+    owner: ubuntu:ubuntu
+    permissions: '0644'
+    content: |
+      import time
+      import random
+      from prometheus_client import start_http_server, Counter
+
+      auth_metric = Counter(
+          'auth_attempts_total',
+          'Anzahl der Logins',
+          ['methode', 'status']
+      )
+
+      def process_login():
+          methods = ['password', 'oauth_google', 'mfa_token']
+          method = random.choice(methods)
+
+          if random.random() > 0.3:
+              status = 'success'
+              print(f"[AUTH] Login erfolgreich via {method}.")
+          else:
+              status = 'error_invalid_credentials'
+              print(f"[AUTH] FEHLER: Falsche Daten via {method}!")
+
+          auth_metric.labels(methode=method, status=status).inc()
+
+      if __name__ == '__main__':
+          print("Starte Login Server Simulation...")
+          start_http_server(8000)
+
+          while True:
+              process_login()
+              import random as _r
+              time.sleep(_r.uniform(0.1, 1.0))
+
+runcmd:
+  # Grafana Repository hinzufügen und installieren
+  - mkdir -p /etc/apt/keyrings/
+  - wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | tee /etc/apt/keyrings/grafana.gpg > /dev/null
+  - echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | tee -a /etc/apt/sources.list.d/grafana.list
+  - apt-get update
+  - apt-get install -y grafana
+  - systemctl enable grafana-server
+  - systemctl start grafana-server
+
+  # Python Virtual Environment vorbereiten
+  - sudo -u ubuntu python3 -m venv /home/ubuntu/monitoring/.venv
+  - sudo -u ubuntu /home/ubuntu/monitoring/.venv/bin/pip install prometheus-client

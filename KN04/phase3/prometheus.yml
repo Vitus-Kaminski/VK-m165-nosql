@@ -1,0 +1,13 @@
+# Datei: /etc/prometheus/prometheus.yml
+# Fügen Sie diesen Block am Ende unter scrape_configs: ein
+
+scrape_configs:
+  # Dieser Block ist bereits vorhanden (nicht löschen!):
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # NEU HINZUFÜGEN – Login Server Metriken:
+  - job_name: 'login_server'
+    static_configs:
+      - targets: ['localhost:8000']
