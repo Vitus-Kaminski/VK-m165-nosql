@@ -1,0 +1,87 @@
+#cloud-config
+# KN03 – Gruppe C: E-Commerce Produkt-Katalog
+# Cloud-Init für Ubuntu 24.04 EC2-Instanz
+# Installiert Redis, Python-Abhängigkeiten und das Caching-Script
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - redis-server
+  - python3
+  - python3-pip
+  - python3-venv
+
+runcmd:
+  # Redis starten und für Autostart aktivieren
+  - systemctl enable redis-server
+  - systemctl start redis-server
+
+  # Projektordner anlegen
+  - mkdir -p /home/ubuntu/caching
+
+  # Python Virtual Environment erstellen und Abhängigkeiten installieren
+  - python3 -m venv /home/ubuntu/caching/.venv
+  - /home/ubuntu/caching/.venv/bin/pip install redis
+
+  # Script herunterladen / ablegen (Inhalt wird via write_files eingebettet)
+  - chown -R ubuntu:ubuntu /home/ubuntu/caching
+
+write_files:
+  - path: /home/ubuntu/caching/script.py
+    owner: ubuntu:ubuntu
+    permissions: '0755'
+    content: |
+      import time
+      import random
+      import redis
+      import json
+
+      # KONFIGURATION
+      try:
+          r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+          r.ping()
+          print("Verbunden mit Redis")
+      except Exception as e:
+          print(f"Konnte nicht mit Redis verbinden: {e}")
+          r = None
+
+      CACHE_TTL = 15  # Sekunden
+
+      def query_product_db(product_id):
+          """Simuliert eine langsame relationale Datenbank-Abfrage mit vielen JOINs"""
+          print(f"... Führe 5 JOINs in der SQL-Datenbank für '{product_id}' aus (bitte warten) ...")
+          time.sleep(2.2)
+          product = {
+              "id": product_id,
+              "name": f"Premium Artikel {product_id}",
+              "description": "Ein hervorragendes Produkt für den Alltag.",
+              "price": random.choice([19.90, 49.00, 129.50]),
+              "stock": random.randint(0, 50)
+          }
+          return json.dumps(product)
+
+      def get_product(product_id):
+          cache_key = f"product:{product_id}"
+          if r is not None:
+              cached_value = r.get(cache_key)
+              if cached_value is not None:
+                  print(f"[CACHE HIT] Key '{cache_key}' gefunden – Daten aus Redis geladen.")
+                  return cached_value
+          print(f"[CACHE MISS] Key '{cache_key}' nicht im Cache – Datenbankabfrage wird gestartet.")
+          result = query_product_db(product_id)
+          if r is not None:
+              r.setex(cache_key, CACHE_TTL, result)
+              print(f"[CACHE SET] Ergebnis unter '{cache_key}' für {CACHE_TTL}s gespeichert.")
+          return result
+
+      test_id = "PROD-9901"
+      print("\n--- Erster Aufruf (Cache Miss - sollte langsam sein) ---")
+      start = time.time()
+      print(f"Produktdaten: {get_product(test_id)}")
+      print(f"Dauer: {time.time() - start:.4f} Sekunden")
+
+      print("\n--- Zweiter Aufruf (Cache Hit - sollte blitzschnell sein) ---")
+      start = time.time()
+      print(f"Produktdaten: {get_product(test_id)}")
+      print(f"Dauer: {time.time() - start:.4f} Sekunden")
