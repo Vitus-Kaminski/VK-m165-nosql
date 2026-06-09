@@ -7,7 +7,8 @@
 
 ### Security Group – Inbound Rules
 > **Abgabe:** Screenshot der Security Group Inbound Rules aus der AWS Konsole.  
-> *(Datei: `phase1/security_group_inbound.png`)*
+> <img width="1572" height="692" alt="inboundrules" src="https://github.com/user-attachments/assets/2965323b-2b85-4c7b-bc99-486307d208bf" />
+
 
 Konfiguration:
 | Port | Protokoll | Quelle          | Zweck         |
@@ -20,10 +21,13 @@ Redis (Port 6379) ist **nicht** nach aussen geöffnet – Kommunikation läuft a
 
 ### Redis läuft – `redis-cli ping`
 > **Abgabe:** Screenshot der SSH-Konsole mit Ausgabe `PONG`.  
-> *(Datei: `phase1/redis_ping.png`)*
+> <img width="1872" height="717" alt="redisping" src="https://github.com/user-attachments/assets/13a93187-c226-4ca0-afc8-fb909808a059" />
+
 
 Befehl:
-```bash
+```bash<img width="1875" height="490" alt="zeitmessung" src="https://github.com/user-attachments/assets/2ed1d8d6-e44a-48b5-a3e9-24f38e46c2a4" />
+<img width="1875" height="490" alt="zeitmessung" src="https://github.com/user-attachments/assets/925f8ad3-0df6-4f0b-94f9-6f961fcafb04" />
+
 redis-cli ping
 # Erwartete Ausgabe: PONG
 ```
@@ -160,7 +164,8 @@ sequenceDiagram
 ### Messergebnisse
 
 > **Abgabe:** Screenshot der Terminal-Ausgabe mit Zeitmessungen.  
-> *(Datei: `phase3/terminal_zeitmessung.png`)*
+><img width="1875" height="490" alt="zeitmessung" src="https://github.com/user-attachments/assets/ac827be5-a5ed-4a25-a59a-654b3f706e4a" />
+
 
 | Aufruf | Typ        | Dauer       |
 |--------|------------|-------------|
@@ -177,7 +182,8 @@ Der zweite Aufruf liest den Wert direkt aus dem In-Memory-Store Redis – die Da
 ### Redis-CLI Abfrage
 
 > **Abgabe:** Screenshot der Redis-CLI mit `KEYS *` und `GET product:PROD-9901`.  
-> *(Datei: `phase3/redis_cli_keys.png`)*
+> <img width="1900" height="401" alt="Resdisaufruf" src="https://github.com/user-attachments/assets/3da0345c-5a10-4968-a28f-f2ca5517b7b9" />
+
 
 ```bash
 redis-cli
@@ -220,7 +226,9 @@ Wenn sich ein Produktpreis oder der Lagerbestand in der SQL-Datenbank ändert, l
 ### TTL Live-Beobachtung
 
 > **Abgabe:** Screenshot mit `TTL product:PROD-9901` (Restzeit sichtbar).  
-> *(Datei: `phase4/redis_ttl_active.png`)*
+> <img width="1891" height="257" alt="image" src="https://github.com/user-attachments/assets/909876d1-efab-4e02-87e4-fa424bf1e9c9" />
+
+
 
 ```bash
 127.0.0.1:6379> TTL product:PROD-9901
@@ -236,7 +244,7 @@ Wenn sich ein Produktpreis oder der Lagerbestand in der SQL-Datenbank ändert, l
 ### Key nach TTL-Ablauf
 
 > **Abgabe:** Screenshot mit `GET product:PROD-9901` nach Ablauf → `(nil)`.  
-> *(Datei: `phase4/redis_get_nil.png`)*
+> <img width="1891" height="257" alt="image" src="https://github.com/user-attachments/assets/8d65d120-918a-4197-bc69-aa855b51768b" />
 
 ```bash
 127.0.0.1:6379> GET product:PROD-9901
