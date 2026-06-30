@@ -12,6 +12,7 @@ Dieses Repository enthält alle Abgaben und Dokumentationen für das Modul.
 | [KN03](#kn03) | Redis In-Memory und Caching-Strategien | ✅ Abgeschlossen |
 | [KN04](#kn04) | Full-Stack Monitoring mit Prometheus & Grafana | ✅ Abgeschlossen |
 | [KN05](#kn05) | Graphdatenbanken & Neo4j | ✅ Abgeschlossen |
+| [KN06](#kn06) | KN06 – Wide-Column Stores & Query-First Design mit Cassandra | ✅ Abgeschlossen |
 
 ---
 
